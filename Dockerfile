@@ -11,8 +11,9 @@ COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 
 RUN echo 'gem: --no-document' >> ~/.gemrc
-RUN gem install bundler -v 2.2.17
 RUN gem update --system
+RUN gem install bundler -v 2.2.17
+RUN bundle config set force_ruby_platform true
 RUN bundle _2.2.17_ update
 RUN bundle _2.2.17_ install
 RUN rails webpacker:install
