@@ -4,13 +4,17 @@ FROM ruby:2.6.3
 WORKDIR /myapp
 
 RUN apt-get update -qq && \
-    apt-get install -y nodejs postgresql-client sqlite3 --no-install-recommends && \
+    apt-get install -y postgresql-client sqlite3 --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# yarn install
+# install yarn
 RUN wget --quiet -O - /tmp/pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
-RUN set -x && apt-get update -y -qq && apt-get install -yq nodejs yarn
+RUN set -x && apt-get update -y -qq && apt-get install -yq yarn
+
+# install node
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
 
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
@@ -28,6 +32,7 @@ RUN bundle _2.2.17_ install
 RUN gem install rails -v 6.0.4
 RUN bundle _2.2.17_ update
 RUN rails webpacker:install
+RUN rails webpacker:compile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
