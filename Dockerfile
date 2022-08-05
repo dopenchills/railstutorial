@@ -25,14 +25,11 @@ RUN gem install bundler -v 2.2.17
 
 # nokogiriが動くようになる
 RUN bundle config set force_ruby_platform true
-RUN bundle _2.2.17_ config set --local without 'production'
 RUN bundle _2.2.17_ install
 
 # railsコマンドを使えるようにする (/myapp/bin/railsがなぜか使えない)
 RUN gem install rails -v 6.0.4
 RUN bundle _2.2.17_ update
-RUN rails webpacker:install
-RUN rails webpacker:compile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
