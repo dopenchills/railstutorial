@@ -4,7 +4,7 @@ FROM ruby:2.6.3
 WORKDIR /myapp
 
 RUN apt-get update -qq && \
-    apt-get install -y postgresql-client sqlite3 --no-install-recommends && \
+    apt-get install -y postgresql-client sqlite3 imagemagick --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 # install yarn
