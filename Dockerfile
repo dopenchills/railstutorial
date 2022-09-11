@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ruby:2.6.3
+FROM ruby:2.7.6
 
 WORKDIR /myapp
 
